@@ -1,4 +1,4 @@
-// "use strict";!function(){var n=$("html"),t=function(){$(".btn-menu").on("click",function(t){t.preventDefault(),n.toggleClass("menu-opened")})},e=function(){t()};e()}();
+"use strict";!function(){var n=$("html"),t=function(){$(".btn-menu").on("click",function(t){t.preventDefault(),n.toggleClass("menu-opened")})},e=function(){t()};e()}();
 var UrlApiGet = 'https://vdgf33zpdb.execute-api.eu-west-1.amazonaws.com/v1/events/';
 var UrlApiPost = 'https://vdgf33zpdb.execute-api.eu-west-1.amazonaws.com/v1/event'
 var S3Url = '.s3-eu-west-1.amazonaws.com/';
@@ -13,15 +13,10 @@ AWS.config.update({
   })
 });
 
-// var myCredentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:IdentityPoolIds});
-// var myConfig = new AWS.Config({
-//   credentials: myCredentials, region: bucketRegion
-// });
-
-// var s3 = new AWS.S3({
-//   apiVersion: "2006-03-01",
-//   params: { Bucket: bucketName }
-// });
+var s3 = new AWS.S3({
+  apiVersion: "2006-03-01",
+  params: { Bucket: bucketName }
+});
 
  $(function onDocReady() {
     $('#request').click(handleRequestClick);
@@ -116,6 +111,40 @@ function submitEvent() {
       function(data) {
         addEvent()
         alert("Successfully uploaded and create event.");
+      },
+      function(err) {
+        console.log(err,err.message);
+        // return alert("There was an error uploading your photo: ", err.message);
+
+      }
+    );
+  }
+
+  function uploadPhotos() {
+    var files = document.getElementById("photoupload").files;
+    if (!files.length) {
+      return alert("Please choose a file to upload first.");
+    }
+    var file = files[0];
+    var fileName = file.name;  
+    var photoKey = fileName;
+
+    // Use S3 ManagedUpload class as it supports multipart uploads
+    var upload = new AWS.S3.ManagedUpload({
+    
+      params: {
+        Bucket: bucketName,
+        Key: photoKey,
+        Body: file,
+        ACL: "public-read"
+      }
+    });
+  
+    var promise = upload.promise();
+  
+    promise.then(
+      function(data) {
+        alert("Successfully uploaded photo");
       },
       function(err) {
         console.log(err,err.message);
