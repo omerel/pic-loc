@@ -28,13 +28,19 @@
     <button type="button" class="btn-menu"><span>Menu</span></button>
   </header>
 
+
   <section class="home-sign-up">
     <h2 class="section-title">Upload photos</h2>
-    <p></p>
-    <p></p>
-    <input id="photoupload" type="file" accept="image/*">
-    <button id="upload" class="btn btn-primary" onclick="uploadPhotos()">Submit</button>
+    <p class="content">Choose one or more photos you would like to share </p>
+    <form id='file-catcher'>
+        <input id='file-input' type='file' multiple/>
+        <button type='submit'>
+          Submit
+        </button>
+      </form>
+      <div id='file-list-display'></div>
   </section>
+
 
   <section class="home-sign-up">
     <div class="row column">
@@ -67,5 +73,6 @@
   </footer>
   <script src="js/vendor.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/uploadfiles.js"></script>
 </body>
 </html>

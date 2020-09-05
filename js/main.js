@@ -119,37 +119,3 @@ function submitEvent() {
       }
     );
   }
-
-  function uploadPhotos() {
-    var files = document.getElementById("photoupload").files;
-    if (!files.length) {
-      return alert("Please choose a file to upload first.");
-    }
-    var file = files[0];
-    var fileName = file.name;  
-    var photoKey = fileName;
-
-    // Use S3 ManagedUpload class as it supports multipart uploads
-    var upload = new AWS.S3.ManagedUpload({
-    
-      params: {
-        Bucket: bucketName,
-        Key: photoKey,
-        Body: file,
-        ACL: "public-read"
-      }
-    });
-  
-    var promise = upload.promise();
-  
-    promise.then(
-      function(data) {
-        alert("Successfully uploaded photo");
-      },
-      function(err) {
-        console.log(err,err.message);
-        // return alert("There was an error uploading your photo: ", err.message);
-
-      }
-    );
-  }
