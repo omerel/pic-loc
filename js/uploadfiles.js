@@ -38,7 +38,7 @@ function uploadPhotos(file) {
   var fileListDisplay = document.getElementById('file-list-display');
   
   var fileList = [];
-  var renderFileList, sendFile,startUpload;
+  var renderFileList,startUpload;
   fileCatcher.addEventListener('submit', async function (evnt) {
     if (!document.getElementById('file-input').files.length) {
       return alert("Please choose photos to upload first.");
@@ -75,12 +75,4 @@ function uploadPhotos(file) {
     });
   };
   
-  sendFile = function (file) {
-  	var formData = new FormData();
-    var request = new XMLHttpRequest();
- 
-    formData.set('file', file);
-    request.open("POST", 'https://jsonplaceholder.typicode.com/photos');
-    request.send(formData);
-  };
 })();

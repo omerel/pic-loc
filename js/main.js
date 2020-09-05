@@ -25,6 +25,9 @@ var s3 = new AWS.S3({
 function handleRequestClick(event) {
     var event_id = document.getElementById("event_id").value;
     document.getElementById('viewer').innerHTML = '';
+    // update waiting
+    var eventDisplay = document.getElementById('event_details');
+    eventDisplay.innerHTML = 'Waiting...';
     getPhotos(event_id);
 }
 
@@ -35,13 +38,17 @@ function getPhotos(event_id) {
         success: function(result){
             var jsonResult  = JSON.stringify(result);
             var jsonObj = JSON.parse(jsonResult);
+            console.log(jsonObj);
             var htmlTemplate ='';
-            var photos = jsonObj.map(function(photo) {
+            var photos = jsonObj[1].map(function(photo) {
                 console.log(photo);
                 htmlTemplate = htmlTemplate + 
                 '<div><p>'+photo.KEY.S+'</p></div>'+
                 '<img src="https://'+photo.BUCKET.S+S3Url+photo.KEY.S+'" alt="image"></img>';
             });
+            // update waiting
+            var eventDisplay = document.getElementById('event_details');
+            eventDisplay.innerHTML = 'Your event: '+jsonObj[0].EVENT_NAME;
             document.getElementById('viewer').innerHTML = htmlTemplate;
         },
         error: function(error){
@@ -75,7 +82,10 @@ function addEvent() {
         }),
         contentType: 'application/json',
         success: function(result){
-            console.log(result);
+            var jsonResult = JSON.parse(result);
+            var eventIdDisplay = document.getElementById('event_id');
+            eventIdDisplay.innerHTML = 'Your Event ID is: '+ jsonResult.event_id;
+            console.log('Event ID'+jsonResult.event_id);
         },
         error: function ajaxError(jqXHR, textStatus, errorThrown) {
             console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
@@ -93,6 +103,10 @@ function submitEvent() {
     var file = files[0];
     var fileName = file.name;  
     var photoKey = fileName;
+
+    // update waiting
+    var eventIdDisplay = document.getElementById('event_id');
+    eventIdDisplay.innerHTML = 'Waiting...';
 
     // Use S3 ManagedUpload class as it supports multipart uploads
     var upload = new AWS.S3.ManagedUpload({
