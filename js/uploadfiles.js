@@ -32,6 +32,10 @@ function uploadPhotos(file) {
     fileListDisplay.appendChild(fileDisplayEl);
     };
 
+
+// ##################
+//    Handle mulyiple files
+// ##################
   ( function () {
 	var fileCatcher = document.getElementById('file-catcher');
   var fileInput = document.getElementById('file-input');

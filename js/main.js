@@ -22,6 +22,9 @@ var s3 = new AWS.S3({
     $('#request').click(handleRequestClick);
 });
 
+// ##################
+//    handleRequestClick
+// ##################
 function handleRequestClick(event) {
     var event_id = document.getElementById("event_id").value;
     document.getElementById('viewer').innerHTML = '';
@@ -30,7 +33,9 @@ function handleRequestClick(event) {
     eventDisplay.innerHTML = 'Waiting...';
     getPhotos(event_id);
 }
-
+// ##################
+//    Get all images that related to the requested event id
+// ##################
 function getPhotos(event_id) {
     $.ajax({
         url:UrlApiGet+event_id,
@@ -56,8 +61,9 @@ function getPhotos(event_id) {
         }
     });
 }
-
-
+// ##################
+//    add new event in event DB
+// ##################
 function addEvent() {
     var event_name = document.getElementById("event_name").value;
     var radius = document.getElementById("radius").value;
@@ -94,7 +100,9 @@ function addEvent() {
         }
     });
 }
-
+// ##################
+//    Submit Event : upload the image and call addevent method
+// ##################
 function submitEvent() {
     var files = document.getElementById("photoupload").files;
     if (!files.length) {
