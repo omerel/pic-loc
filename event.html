@@ -16,7 +16,6 @@
 
 </head>
 <body class="page-home">
-
   <header class="site-header">
     <nav class="site-nav">
       <ul>
@@ -29,23 +28,28 @@
   </header>
 
   <section class="home-sign-up">
-    <h2 class="section-title">Create Event</h2>
-    <p class="content">Enter your event details and choose associate
-         photo from the time and the place of the event </p>
-    <p>Event name</p>
+    <h2 class="section-title">Create your Event</h2>
+    <p class="content">Enter the event details and choose associate photo. we will do the rest...</p>
+    <p>1. Write a name for your event</p>
     <input type="text" id="event_name" placeholder="Enter event name">
-    <p>Radius(meters)</p>
-    <input type="text" id="radius" placeholder="Enter radius in meters">
-    <p>Time window(minutes)</p>
-    <input type="text" id="time_window" placeholder="Enter time in minutes">
+    <div class="slidecontainer">
+      <p>2. Choose radius of interest </p> 
+      <input id="sliderRadius" type="range" min="10" max="1000" value="10">
+      <p><span id="radiusText"></span> meters</p>
+    </div>
+    <p>3. Decide window time of interest</p>
+    <input type="time" id="time_window" value="00:30">
     <p></p>
-    <input id="photoupload" type="file" accept="image/*">
+    <p>4. Choose the photo you would like to share</p>
+    <input id="photoupload" type="file" accept="image/*"/>
     <button id="upload" class="btn btn-primary" onclick="submitEvent()">Submit</button>
+    <div>
+      <h2 id="text_event_id"></h2>
+      <h2  style= "color:red" id="event_id"></h2>
+    </div>
+    
   </section>
-
-  <section class="home-about">
-    <h2 id="event_id"></h2>
-  </section>
+  
 
   <section class="home-sign-up">
     <div class="row column">
@@ -76,7 +80,6 @@
       </div>
     </div>
   </footer>
-  <!-- <script src="js/vendor.js"></script> -->
-  <script src="js/main.js"></script>
+  <script src="js/event.js"></script>
 </body>
 </html>

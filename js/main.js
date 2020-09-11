@@ -1,6 +1,5 @@
 "use strict";!function(){var n=$("html"),t=function(){$(".btn-menu").on("click",function(t){t.preventDefault(),n.toggleClass("menu-opened")})},e=function(){t()};e()}();
 var UrlApiGet = 'https://vdgf33zpdb.execute-api.eu-west-1.amazonaws.com/v1/events/';
-var UrlApiPost = 'https://vdgf33zpdb.execute-api.eu-west-1.amazonaws.com/v1/event'
 var S3Url = '.s3-eu-west-1.amazonaws.com/';
 var bucketName = 'pic-loc-awsbucket';
 var bucketRegion = 'eu-west-1';
@@ -61,83 +60,3 @@ function getPhotos(event_id) {
         }
     });
 }
-// ##################
-//    add new event in event DB
-// ##################
-function addEvent() {
-    var event_name = document.getElementById("event_name").value;
-    var radius = document.getElementById("radius").value;
-    var time_window = document.getElementById("time_window").value;
-    var files = document.getElementById("photoupload").files;
-    if (!files.length) {
-      return alert("Please choose a file to upload first.");
-    }
-    var file = files[0];
-    var fileName = file.name;  
-    console.log(event_name,radius,time_window,fileName);
-    $.ajax({
-        method: 'POST',
-        url:UrlApiPost,
-        headers: {
-        },
-        data: JSON.stringify({
-            "event_name" : event_name,
-            "srcKey" : fileName,
-            "radius" : radius,
-            "time_window" : time_window
-        }),
-        contentType: 'application/json',
-        success: function(result){
-            var jsonResult = JSON.parse(result);
-            var eventIdDisplay = document.getElementById('event_id');
-            eventIdDisplay.innerHTML = 'Your Event ID is: '+ jsonResult.event_id;
-            console.log('Event ID'+jsonResult.event_id);
-        },
-        error: function ajaxError(jqXHR, textStatus, errorThrown) {
-            console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
-            console.error('Response: ', jqXHR.responseText);
-            alert('An error occured when requesting:\n' + jqXHR.responseText);
-        }
-    });
-}
-// ##################
-//    Submit Event : upload the image and call addevent method
-// ##################
-function submitEvent() {
-    var files = document.getElementById("photoupload").files;
-    if (!files.length) {
-      return alert("Please choose a file to upload first.");
-    }
-    var file = files[0];
-    var fileName = file.name;  
-    var photoKey = fileName;
-
-    // update waiting
-    var eventIdDisplay = document.getElementById('event_id');
-    eventIdDisplay.innerHTML = 'Waiting...';
-
-    // Use S3 ManagedUpload class as it supports multipart uploads
-    var upload = new AWS.S3.ManagedUpload({
-    
-      params: {
-        Bucket: bucketName,
-        Key: photoKey,
-        Body: file,
-        ACL: "public-read"
-      }
-    });
-  
-    var promise = upload.promise();
-  
-    promise.then(
-      function(data) {
-        addEvent()
-        alert("Successfully uploaded and create event.");
-      },
-      function(err) {
-        console.log(err,err.message);
-        // return alert("There was an error uploading your photo: ", err.message);
-
-      }
-    );
-  }
