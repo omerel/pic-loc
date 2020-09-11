@@ -8,6 +8,9 @@
 
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/main.css">
+ 	<!-- Leaflet -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
   <script src="js/vendor/modernizr.js"></script>
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.746.0.min.js"></script>
@@ -35,6 +38,7 @@
       <input type="text" id="event_id" value="">
       <button id="request" class="btn btn-primary" >watch</button>
       <h2 id="event_details"></h2>
+      <div id="mapid"></div>
       <div id="viewer"></div>
     </div>
   </section>
